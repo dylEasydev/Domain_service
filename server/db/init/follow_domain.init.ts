@@ -4,14 +4,14 @@ import{DataTypes} from 'sequelize';
 
 FollowDomain.init({
     id:{
-        type:DataTypes.INTEGER.UNSIGNED,
+        type:DataTypes.INTEGER,
         autoIncrement:true,
         allowNull:false,
         primaryKey:true,
         unique:true
     },
     userId:{
-        type:DataTypes.INTEGER.UNSIGNED,
+        type:DataTypes.INTEGER,
         allowNull:false,
         validate:{
             isInt:{msg:`Identifiant de l'utilisateur doit être un entier !`}

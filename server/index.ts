@@ -14,4 +14,4 @@ const launchServer = (isRequiredClustering:Boolean)=>{
     }
 }
 
-launchServer(true);
+launchServer(false);

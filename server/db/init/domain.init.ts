@@ -4,14 +4,14 @@ import{DataTypes} from 'sequelize';
 
 Domain.init({
     id:{
-        type:DataTypes.INTEGER.UNSIGNED,
+        type:DataTypes.INTEGER,
         autoIncrement:true,
         allowNull:false,
         primaryKey:true,
         unique:true
     },
     domainName:{
-        type:DataTypes.STRING(30),
+        type:DataTypes.STRING,
         allowNull:false,
         validate:{
             notEmpty:{msg:`Veillez fournir un nom à Votre domaine`},
@@ -27,7 +27,7 @@ Domain.init({
         }
     },
     domainDescript:{
-        type:DataTypes.TEXT('medium'),
+        type:DataTypes.TEXT,
         allowNull:true
     },
     createdAt: DataTypes.DATE ,
