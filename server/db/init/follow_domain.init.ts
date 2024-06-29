@@ -14,7 +14,7 @@ FollowDomain.init({
         type:DataTypes.INTEGER.UNSIGNED,
         allowNull:false,
         validate:{
-            isInt:{msg:`identifiant de l'utilisateur doit être un entier !`}
+            isInt:{msg:`Identifiant de l'utilisateur doit être un entier !`}
         }
     },
     createdAt: DataTypes.DATE ,

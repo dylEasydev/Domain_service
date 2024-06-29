@@ -2,9 +2,8 @@ import {
     Model ,CreationOptional,InferAttributes, 
     InferCreationAttributes
 } from 'sequelize';
-/**
- * interface représentant les Images
- */
+
+
 export interface ImageInterface extends Model<
     InferAttributes<ImageInterface>,
     InferCreationAttributes<ImageInterface>

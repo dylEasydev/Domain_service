@@ -4,10 +4,9 @@ import { sequelizedb1 } from '../config';
 Domain.afterFind(async (instances , options)=>{
     return new Promise<void>(async(resolve, reject) => {
         try {
-            if(!instances) instances = [] as Domain[];
-            else if(!Array.isArray(instances))instances =[instances] as Domain[]; 
             await sequelizedb1.transaction(async t=>{
-                instances = instances as Domain[];
+                if(!instances) instances = [] as Domain[];
+                else if(!Array.isArray(instances))instances =[instances] as Domain[]; 
                 await Promise.all(instances.map(async elts=>{
                     const picture = await Image.findOne({
                         where:{

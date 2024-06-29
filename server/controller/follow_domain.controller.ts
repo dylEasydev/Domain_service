@@ -14,8 +14,8 @@ export class FollowDomainController extends BaseController{
             return statusResponse.sendResponseJson(
                 CodeStatut.VALID_STATUS,
                 res,
-                `Vos domaine suivie sont présent !!`,
-                tableDomain
+                `Vous suivez ${tableDomain.count} domaine(s) !!`,
+                tableDomain.rows
             );
         } catch (error) {
             return statusResponse.sendResponseJson(
@@ -65,7 +65,7 @@ export class FollowDomainController extends BaseController{
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
                     res,
-                    `Vous êtes deexesabonnée avec success !!`,
+                    `Vous êtes désabonnée avec success !!`,
                 );
             } catch (error) {
                 return statusResponse.sendResponseJson(

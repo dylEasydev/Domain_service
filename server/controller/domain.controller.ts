@@ -37,7 +37,7 @@ export class DomainController extends BaseController{
             return statusResponse.sendResponseJson(
                 CodeStatut.CREATE_STATUS,
                 res,
-                `nouveau domain ${newDomain.domainName} créer avec sucess !!`,
+                `Nouveau domain ${newDomain.domainName} créer avec sucess !!`,
                 newDomain
             );
 
@@ -98,7 +98,7 @@ export class DomainController extends BaseController{
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
                     res,
-                    `nouveau domain ${domainUpdate.domainName} créer avec sucess !!`,
+                    `Domaine ${domainUpdate.domainName} mis à jour avec sucess !!`,
                     domainUpdate
                 );
             } catch (error) {
@@ -186,7 +186,7 @@ export class DomainController extends BaseController{
                     return statusResponse.sendResponseJson(
                         CodeStatut.CLIENT_STATUS,
                         res,
-                        `vous devez donné au moins 2 carractères pour effectuer la recherche!`
+                        `vous devez donner au moins 2 carractères pour effectuer la recherche!`
                     );
                 }
                 const tableDomain = await domainService.findAllDomain(limit , search);
