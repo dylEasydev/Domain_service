@@ -160,6 +160,7 @@ export class DomainController extends BaseController{
                         `Aucun domain d'identifiant ${req.params.id}!`
                     );
                 } 
+                
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
                     res,
@@ -191,7 +192,7 @@ export class DomainController extends BaseController{
                 }
                 const tableDomain = await domainService.findAllDomain(limit , search);
                 return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_FOUND_STATUS,
+                    CodeStatut.VALID_STATUS,
                     res,
                     `Nous avons trouver ${tableDomain.count} résultats au terme de recherche ${search}!`,
                     tableDomain.rows
@@ -199,7 +200,7 @@ export class DomainController extends BaseController{
             }
             const tableDomain = await domainService.findAllDomain(limit);
             return statusResponse.sendResponseJson(
-                CodeStatut.NOT_FOUND_STATUS,
+                CodeStatut.VALID_STATUS,
                 res,
                 `Nous avons trouver ${tableDomain.count} domaines au totale !`,
                 tableDomain.rows

@@ -1,7 +1,6 @@
 import {sequelizedb1 ,sequelizedb2} from './config';
 import {Image} from './init';
-import { FollowDomain} from './associations';
-import {Domain} from './hooks'
+import { FollowDomain, Domain} from './associations';
 import { User , Token} from './interface';
 
 export {

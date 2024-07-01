@@ -1,6 +1,6 @@
 import { sequelizedb1, sequelizedb2 } from '../config';
 import { DomainInterface, FollowDomainInterface } from '../interface';
-import { Domain, FollowDomain } from '../../db';
+import { Domain, FollowDomain,Image } from '../../db';
 import { DomainInterfaceService } from './interface';
 import { Op } from 'sequelize';
 import follow_domainService from './follow_domain.service';
@@ -73,8 +73,19 @@ class DomaineService implements DomainInterfaceService{
                         }
                     })
                 })
-
-                resolve(domainFind);
+                if(domainFind !== null){
+                    domainFind.image = await sequelizedb1.transaction(async t =>{
+                        const picture = await Image.findOne({
+                            where:{
+                                foreignId:domainFind?.id,
+                                nameTable:Domain.tableName
+                            },
+                            transaction:t
+                        });
+                        return picture?.urlPictures;
+                    });
+                }
+                resolve({...domainFind?.dataValues , image: domainFind?.image} as Domain|null);
             } catch (error) {
                 reject(error);
             }
@@ -108,8 +119,19 @@ class DomaineService implements DomainInterfaceService{
                         }
                     })
                 })
-
-                resolve(domainFind);
+                if(domainFind !== null){
+                    domainFind.image = await sequelizedb1.transaction(async t =>{
+                        const picture = await Image.findOne({
+                            where:{
+                                foreignId:domainFind?.id,
+                                nameTable:Domain.tableName
+                            },
+                            transaction:t
+                        });
+                        return picture?.urlPictures;
+                    });
+                }
+                resolve({...domainFind?.dataValues , image: domainFind?.image} as Domain|null);
             } catch (error) {
                 reject(error);
             }
@@ -145,11 +167,28 @@ class DomaineService implements DomainInterfaceService{
                             ]
                         },
                         order:[
-                            [sequelizedb2.literal(`nbreSubcribe`),'DESC']
+                            [
+                                sequelizedb2.getDialect() !== 'postgres'?
+                                sequelizedb2.literal(`nbreSubscribe`):
+                                sequelizedb2.literal(`"nbreSubscribe"`)
+                                ,'DESC'
+                            ]
                         ]
                     })
                 })
-
+                tableDomain.rows = await sequelizedb1.transaction(async t=>{
+                    return await Promise.all(tableDomain.rows.map(async elts=>{
+                        const picture = await Image.findOne({
+                            where:{
+                                foreignId:elts.id,
+                                nameTable:Domain.tableName
+                            },
+                            transaction:t
+                        });
+                        elts.image = picture?.urlPictures;
+                        return {...elts.dataValues, image: elts.image} as Domain;
+                    }))
+                })
                 resolve(tableDomain);
             } catch (error) {
                 reject(error);
