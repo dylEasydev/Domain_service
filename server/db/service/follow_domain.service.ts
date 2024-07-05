@@ -1,9 +1,10 @@
-import { sequelizedb2 } from '../config';
+import { sequelizedb2,sequelizedb1 } from '../config';
 import { DomainInterface } from '../interface';
-import { FollowDomain } from '../../db';
+import { FollowDomain , Image} from '../../db';
 import { FollowDomainServiceInterface } from './interface';
 
 class FollowDomainService implements FollowDomainServiceInterface{
+    
     findDomainFollow(userId:number,limit=5){
         return new Promise<{ count:number; rows:DomainInterface[];}>(async(resolve, reject) => {
             try {
@@ -21,8 +22,21 @@ class FollowDomainService implements FollowDomainServiceInterface{
                         ]
                     })
 
-                    const tableDomain = tableFollow.rows.map(value=>{
+                    let tableDomain = tableFollow.rows.map(value=>{
                         return value.domain as DomainInterface;
+                    })
+                    tableDomain = await sequelizedb1.transaction(async t=>{
+                        return await Promise.all(tableDomain.map(async elts=>{
+                            const picture = await Image.findOne({
+                                where:{
+                                    foreignId:elts.id,
+                                    nameTable:'domain'
+                                },
+                                transaction:t
+                            });
+                            elts.image = picture?.urlPictures;
+                            return {...elts.dataValues, image: elts.image} as DomainInterface;
+                        }))
                     })
                     return {rows:tableDomain , count:tableFollow.count};
                 }) 

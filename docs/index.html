@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation d'api Easyclass </title>
+</head>
+<body>
+    <header> 
+        <h1>Bienvenue sur la documentation d'api domainService d'Easyclass </h1>
+    </header>
+
+    <section>
+        <p>
+            <h2>  point de terminaison d'accueil : <strong> http://localhost:3002/ </strong> </h2>
+            <p>Methode : <strong> GET</strong> </p>
+            <p> format de la reponse</p>
+            <pre>
+                <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de terminaison de la doc : <strong> http://localhost:3002/docs </strong> </h2>
+            <p>Methode : <strong> GET</strong> </p>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de terminaison de recuperation de tout les domaines : <strong> http://localhost:3002/domain/?limit=5&search='' </strong> </h2>
+            <p>Methode : <strong> GET</strong> </p>
+            <p> format de la reponse</p>
+            <pre>
+                <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de terminaison de recuperation d'un domaine par son id: <strong> http://localhost:3002/domaine/:id</strong> </h2>
+            <p>Methode : <strong> GET</strong> </p>
+            <p> format de la reponse</p>
+            <pre>
+                <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de terminaison de recuperation d'un domaine par son nom: <strong> http://localhost:3002/domain/:domainName</strong> </h2>
+            <p>Methode : <strong> GET</strong> </p>
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de terminaison de creation d'un domaine: <strong> http://localhost:3002/domain/</strong> </h2>
+            <p>Methode : <strong> POST</strong> </p>
+            <p>authendification jeton obtenu du serveur Oauth2-Easyclass</p>
+            <code>
+                hearder:{
+                    authorization:`Bearer ${token}`
+                }
+            </code> 
+            <p>format du corps de la requête</p>
+            <pre>
+                <code>
+
+                </code>
+            </pre>
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de modifiaction d'un domaine: <strong> http://localhost:3002/domain/:id</strong> </h2>
+            <p>Methode : <strong> PUT</strong> </p>
+            <p>authendification jeton obtenu du serveur Oauth2-Easyclass</p>
+            <code>
+                hearder:{
+                    authorization:`Bearer ${token}`
+                }
+            </code> 
+            <p>format du corps de la requête</p>
+            <pre>
+                <code>
+                    
+                </code>
+            </pre>
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de subscription à  un domaine par un utilisateur : <strong> http://localhost:3002/domain/follow/:id</strong> </h2>
+            <p>Methode : <strong> POST</strong> </p>
+            <p>authendification jeton obtenu du serveur Oauth2-Easyclass</p>
+            <code>
+                hearder:{
+                    authorization:`Bearer ${token}`
+                }
+            </code> 
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de suppression d'un domaine: <strong> http://localhost:3002/domain/:id</strong> </h2>
+            <p>Methode : <strong> DELETE</strong> </p>
+            <p>authendification jeton obtenu du serveur Oauth2-Easyclass</p>
+            <code>
+                hearder:{
+                    authorization:`Bearer ${token}`
+                }
+            </code> 
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de recuperation de la liste des domaines suivie par un utilisateur : <strong> http://localhost:3002/follow/?limit=5</strong> </h2>
+            <p>Methode : <strong> GET</strong> </p>
+            <p>authendification jeton obtenu du serveur Oauth2-Easyclass</p>
+            <code>
+                hearder:{
+                    authorization:`Bearer ${token}`
+                }
+            </code> 
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <h2>  point de desabonnement à un domaine : <strong> http://localhost:3002/follow/:id</strong> </h2>
+            <p>Methode : <strong> DELETE</strong> </p>
+            <p>authendification jeton obtenu du serveur Oauth2-Easyclass</p>
+            <code>
+                hearder:{
+                    authorization:`Bearer ${token}`
+                }
+            </code> 
+            <p> format de la reponse</p>
+            <pre>
+               <code>
+                    
+                </code>
+            </pre>
+        </p>
+    </section>
+
+    <footer>
+
+    </footer>
+</body>
+</html>

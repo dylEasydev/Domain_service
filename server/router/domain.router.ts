@@ -6,7 +6,7 @@ class DomainRouter extends BaseRouter <DomainController>{
     public initRoute(){
         this.routerServeur.get('/',this.controllerService.findAllDomain);
         this.routerServeur.get('/:id',this.controllerService.findDomainById);
-        this.routerServeur.get('/:domaineName',this.controllerService.findDomainByName);
+        this.routerServeur.get('/:domainName',this.controllerService.findDomainByName);
 
         this.routerServeur.put('/:id',auth.secureMiddleware,this.controllerService.updateDomain);
 
