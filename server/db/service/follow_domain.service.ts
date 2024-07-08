@@ -69,7 +69,7 @@ class FollowDomainService implements FollowDomainServiceInterface{
         return new Promise<void>(async (resolve, reject) => {
             try {
                 await sequelizedb2.transaction(async t=>{
-                    FollowDomain.destroy({
+                    await FollowDomain.destroy({
                         where:{
                             userId,
                             domainId

@@ -1,6 +1,7 @@
 import {sequelizedb1} from '../config';
 import {Image} from '../models';
 import{DataTypes} from 'sequelize';
+import { __urlImage } from '../../global_dir';
 
 Image.init({
     id:{
@@ -30,7 +31,7 @@ Image.init({
     urlPictures:{
         type:DataTypes.STRING,
         allowNull:false,
-        defaultValue:`https://easyclass.edu/pictures/profil_default.png`,
+        defaultValue:`${__urlImage}/profil_default.png`,
         validate:{
             notEmpty:{msg:`Veillez fournir une url à votre image`},
             notNull:{msg:`Veillez fournir une url à votre image`},
