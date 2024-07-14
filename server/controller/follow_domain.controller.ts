@@ -8,7 +8,7 @@ export class FollowDomainController extends BaseController{
 
     async findFollowUser(req:Request, res:Response){
         try {
-            const limit = req.query.limit? parseInt(req.query.limit as string) : 5;
+            const limit = req.query.limit? parseInt(req.query.limit as string) : undefined;
             const userToken = req.body.token as Token;
             const tableDomain =  await follow_domainService.findDomainFollow(userToken.userId, limit);
             return statusResponse.sendResponseJson(

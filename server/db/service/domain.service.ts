@@ -4,6 +4,7 @@ import { Domain, FollowDomain,Image } from '../../db';
 import { DomainInterfaceService } from './interface';
 import { Op } from 'sequelize';
 import follow_domainService from './follow_domain.service';
+import { __urlImage } from '../../global_dir';
 
 class DomaineService implements DomainInterfaceService{
     createDomain<
@@ -20,7 +21,7 @@ class DomaineService implements DomainInterfaceService{
                     domain.image = await sequelizedb1.transaction(async t1=>{
                         const picture = await domain.createImage({
                             picturesName:'domain_default.png',
-                            urlPictures:'http://easyclass.edu/domain_default.png'
+                            urlPictures:'${__urlImage}/public/domain_default.png'
                         },{transaction:t1})
                         return picture.urlPictures;
                     })
@@ -138,7 +139,7 @@ class DomaineService implements DomainInterfaceService{
         })
     }
 
-    findAllDomain(limit=5  , search=''){
+    findAllDomain(limit?:number  , search=''){
         return new Promise<{rows:DomainInterface[]; count:number;}>(async (resolve, reject) => {
             try {
                 const tableDomain = await sequelizedb2.transaction(async t=>{
@@ -197,20 +198,21 @@ class DomaineService implements DomainInterfaceService{
     }
 
     followDomain(instance:DomainInterface,userId:number){
-        return new Promise<FollowDomainInterface>(async (resolve, reject) => {
+        return new Promise<[FollowDomainInterface,boolean]>(async (resolve, reject) => {
             try {
-                const followFind = await follow_domainService.findFollowDomain(userId, instance.id);
-                if(followFind !== null) resolve(followFind);
-                else{
-                    const followData = await sequelizedb2.transaction(async t=>{
-                        return await FollowDomain.create({
+                const followData = await sequelizedb2.transaction(async t=>{
+                    return await FollowDomain.findOrCreate({
+                        where:{
                             userId,
                             domainId:instance.id
-                        })
+                        },
+                        defaults:{
+                            userId,
+                            domainId:instance.id
+                        }
                     })
-                    resolve(followData);
-                }
-
+                })
+                resolve(followData);
             } catch (error) {
                 reject(error);
             }

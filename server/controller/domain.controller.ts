@@ -180,7 +180,7 @@ export class DomainController extends BaseController{
 
     async findAllDomain(req:Request , res:Response){
         try {
-            const limit = (req.query.limit)? parseInt(req.query.limit as string): 5;
+            const limit = (req.query.limit)? parseInt(req.query.limit as string): undefined;
             if(req.query.search){
                 const search = req.query.search as string;
                 if(search.length < 2){
