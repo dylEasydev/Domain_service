@@ -3,7 +3,6 @@ import { DomainInterface, FollowDomainInterface } from '../interface';
 import { Domain, FollowDomain,Image } from '../../db';
 import { DomainInterfaceService } from './interface';
 import { Op } from 'sequelize';
-import follow_domainService from './follow_domain.service';
 import { __urlImage } from '../../global_dir';
 
 class DomaineService implements DomainInterfaceService{
@@ -72,13 +71,13 @@ class DomaineService implements DomainInterfaceService{
                                 ]
                             ]
                         }
-                    })
-                })
+                    });
+                });
                 if(domainFind !== null){
                     domainFind.image = await sequelizedb1.transaction(async t =>{
                         const picture = await Image.findOne({
                             where:{
-                                foreignId:domainFind?.id,
+                                foreignId:domainFind.id,
                                 nameTable:Domain.tableName
                             },
                             transaction:t
@@ -124,7 +123,7 @@ class DomaineService implements DomainInterfaceService{
                     domainFind.image = await sequelizedb1.transaction(async t =>{
                         const picture = await Image.findOne({
                             where:{
-                                foreignId:domainFind?.id,
+                                foreignId:domainFind.id,
                                 nameTable:Domain.tableName
                             },
                             transaction:t

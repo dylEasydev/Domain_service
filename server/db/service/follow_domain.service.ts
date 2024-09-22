@@ -5,7 +5,7 @@ import { FollowDomainServiceInterface } from './interface';
 
 class FollowDomainService implements FollowDomainServiceInterface{
     
-    findDomainFollow(userId:number,limit?:number){
+    findDomainFollow(userId:number,limit?:number,search=''){
         return new Promise<{ count:number; rows:DomainInterface[];}>(async(resolve, reject) => {
             try {
                 const tableDomain = await sequelizedb2.transaction(async t=>{

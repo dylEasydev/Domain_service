@@ -98,7 +98,7 @@ export class DomainController extends BaseController{
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
                     res,
-                    `Domaine ${domainUpdate.domainName} mis à jour avec sucess !!`,
+                    `Domaine ${domainUpdate.domainName} mis à jour avec succès !`,
                     domainUpdate
                 );
             } catch (error) {
@@ -164,7 +164,7 @@ export class DomainController extends BaseController{
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
                     res,
-                    ` Domain ${domainFind.domainName} trouver avec sucess !!`,
+                    ` Domain ${domainFind.domainName} trouver avec succès !`,
                     domainFind
                 );
             } catch (error) {

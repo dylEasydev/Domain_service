@@ -13,12 +13,14 @@ export class FollowDomain extends Model<
     declare userId:User['id'];
     declare domainId:ForeignKey<DomainInterface['id']>;
 
+    //objets de eagger logging . ref << doc sequeilize >>
     declare domain?:NonAttribute<DomainInterface>;
 
     declare readonly createdAt:CreationOptional<Date>;
     declare readonly updatedAt:CreationOptional<Date>;
     declare readonly deletedAt:CreationOptional<Date>;
 
+    //alias d'associations
     declare static associations: { 
         domain: Association<FollowDomain, Domain>; 
     };

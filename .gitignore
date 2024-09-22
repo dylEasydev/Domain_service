@@ -2,3 +2,7 @@ node_modules/*
 package-lock.json
 dist/*
 .env
+*.key
+*.crt
+*.csr
+*.pem
