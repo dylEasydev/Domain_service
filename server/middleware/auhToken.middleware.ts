@@ -43,6 +43,25 @@ class AuthToken {
             )
        }
     }
+
+    async verifTokenExist(req:Request , res:Response ,next:()=>void){
+        try {
+            const bearerToken = req.headers.authorization;
+            const token = bearerToken?.split(' ')[1];
+            if(token) req.body.token = await generateToken.verifyToken<Token>(token);
+            next();
+       } catch (error) {
+       console.log(error);
+            if((error instanceof TokenExpiredError) || (error instanceof JsonWebTokenError ) || (error instanceof NotBeforeError)){
+                next();
+            }
+            return statusResponse.sendResponseJson(
+                CodeStatut.SERVER_STATUS,
+                res,
+                `Erreur au niveau du serveur réesayer plus tard !`
+            )
+       }
+    }
 }
 
 export default new AuthToken();

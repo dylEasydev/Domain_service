@@ -13,7 +13,7 @@ export interface DomainInterfaceService{
     findDomainByName(name:string):Promise<DomainInterface|null>;
     findAllDomain(limit?:number  , search? : string):Promise<{rows:DomainInterface[]; count:number;}>;
 
-    followDomain(instance:DomainInterface,userId:number):Promise<[FollowDomainInterface,boolean]>;
+    followDomain(instance:DomainInterface,userIP?:string,userId?:number):Promise<[FollowDomainInterface,boolean]>;
     
     deleteDomain(instance:DomainInterface):Promise<void>;
 }

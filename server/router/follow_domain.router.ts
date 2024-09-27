@@ -4,8 +4,8 @@ import { BaseRouter } from './base.router';
 
 class FollowDomainRouter extends BaseRouter<FollowDomainController>{
     public initRoute(){
-        this.routerServeur.get('/',auth.secureMiddleware , this.controllerService.findFollowUser);
-        this.routerServeur.delete('/deSubscribe/:id',auth.secureMiddleware,this.controllerService.desSubscribeDomain);
+        this.routerServeur.get('/',auth.verifTokenExist,this.controllerService.findFollowUser);
+        this.routerServeur.delete('/deSubscribe/:id',auth.verifTokenExist,this.controllerService.desSubscribeDomain);
     }
 } 
 

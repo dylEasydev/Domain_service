@@ -10,8 +10,9 @@ export interface FollowDomainInterface extends Model<
 >
 {
     id:CreationOptional<number>
-    userId:User['id'];
+    userId:CreationOptional<User['id']|null>;
     domainId:ForeignKey<DomainInterface['id']>;
+    userIp:CreationOptional<string|null>;
 
     domain?:NonAttribute<DomainInterface>;
     

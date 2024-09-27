@@ -10,9 +10,17 @@ FollowDomain.init({
         primaryKey:true,
         unique:true
     },
+    userIp:{
+        type:DataTypes.STRING,
+        allowNull:true,
+        unique:true,
+        validate:{
+            isIP:{msg:`Veillez fournir une addresse IP valide !`}
+        }
+    },
     userId:{
         type:DataTypes.INTEGER,
-        allowNull:false,
+        allowNull:true,
         validate:{
             isInt:{msg:`Identifiant de l'utilisateur doit être un entier !`}
         }
@@ -25,6 +33,6 @@ FollowDomain.init({
     paranoid:true,
     timestamps:true,
     tableName:'followDomain'
-})
+})          
 
 export {FollowDomain};

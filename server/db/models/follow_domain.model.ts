@@ -10,7 +10,8 @@ export class FollowDomain extends Model<
     InferCreationAttributes<FollowDomain>
 >implements FollowDomainInterface{
     declare id:CreationOptional<number>
-    declare userId:User['id'];
+    declare userId:CreationOptional<User['id']|null>;
+    declare userIp: CreationOptional<string|null>;
     declare domainId:ForeignKey<DomainInterface['id']>;
 
     //objets de eagger logging . ref << doc sequeilize >>

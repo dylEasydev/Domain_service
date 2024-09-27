@@ -37,7 +37,7 @@ export class DomainController extends BaseController{
             return statusResponse.sendResponseJson(
                 CodeStatut.CREATE_STATUS,
                 res,
-                `Nouveau domain ${newDomain.domainName} créer avec sucess !!`,
+                `Nouveau domaine ${newDomain.domainName} créer avec sucess !!`,
                 newDomain
             );
 
@@ -85,7 +85,8 @@ export class DomainController extends BaseController{
                             `Aucune Permission de mis à jour d'un domaine !`
                         );
                 }
-                const lastDomain= await domainService.findDomainById(parseInt(req.params.id));
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
+                const lastDomain= await domainService.findDomainById(id);
                 if(lastDomain === null) {
                     return statusResponse.sendResponseJson(
                         CodeStatut.NOT_FOUND_STATUS,
@@ -152,8 +153,9 @@ export class DomainController extends BaseController{
     async findDomainById(req:Request , res:Response){
         if(req.params.id){
             try {
-                const domainFind = await domainService.findDomainById(parseInt(req.params.id));
-                if(domainFind === null) {
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
+                const domainFind = await domainService.findDomainById(id);
+                if( domainFind === null) {
                     return statusResponse.sendResponseJson(
                         CodeStatut.NOT_FOUND_STATUS,
                         res,
@@ -180,14 +182,14 @@ export class DomainController extends BaseController{
 
     async findAllDomain(req:Request , res:Response){
         try {
-            const limit = (req.query.limit)? parseInt(req.query.limit as string): undefined;
+            const limit = (typeof req.query.limit === 'string')? parseInt(req.query.limit ): undefined;
             if(req.query.search){
-                const search = req.query.search as string;
+                const search = (typeof req.query.search === 'string')?req.query.search:'';
                 if(search.length < 2){
                     return statusResponse.sendResponseJson(
                         CodeStatut.CLIENT_STATUS,
                         res,
-                        `vous devez donner au moins 2 carractères pour effectuer la recherche!`
+                        `vous devez donner au moins 2 carractères pour éffectuer la recherche!`
                     );
                 }
                 const tableDomain = await domainService.findAllDomain(limit , search);
@@ -218,37 +220,18 @@ export class DomainController extends BaseController{
     async followDomain(req:Request , res:Response){
         if(req.params.id){
             try {
-                const userToken = req.body.token as Token
-                if(typeof userToken.scope ==='string'){
-                    if(userToken.scope !== 'subscribed:domain')
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de subcription à un domaine !`
-                        );
-                }else if(typeof userToken.scope === 'undefined'){
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de subcription à un domaine!`
-                    );
-                }else{
-                    if(!userToken.scope.includes('subscribed:domain'))
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de subcription à un domaine!`
-                        );
-                }
-                const domainFind = await domainService.findDomainById(parseInt(req.params.id));
+                const userToken = req.body.token as Token |undefined;
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
+                const domainFind = await domainService.findDomainById(id);
                 if(domainFind === null) {
                     return statusResponse.sendResponseJson(
                         CodeStatut.NOT_FOUND_STATUS,
                         res,
                         `Aucun domain d'identifiant ${req.params.id}!`
                     );
-                } 
-                await domainService.followDomain(domainFind,userToken.userId);
+                }
+                if(userToken) await domainService.followDomain(domainFind,undefined,userToken.userId);
+                else await domainService.followDomain(domainFind,req.ip);
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
                     res,
@@ -263,7 +246,6 @@ export class DomainController extends BaseController{
                         error
                     );
                 }
-                
                 return statusResponse.sendResponseJson(
                     CodeStatut.SERVER_STATUS,
                     res,
@@ -299,7 +281,8 @@ export class DomainController extends BaseController{
                             `Aucune Permission de supression d'un domaine !`
                         );
                 }
-                const domainFind = await domainService.findDomainById(parseInt(req.params.id));
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
+                const domainFind = await domainService.findDomainById(id);
                 if(domainFind === null) {
                     return statusResponse.sendResponseJson(
                         CodeStatut.NOT_FOUND_STATUS,

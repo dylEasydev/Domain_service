@@ -20,7 +20,7 @@ class DomaineService implements DomainInterfaceService{
                     domain.image = await sequelizedb1.transaction(async t1=>{
                         const picture = await domain.createImage({
                             picturesName:'domain_default.png',
-                            urlPictures:'${__urlImage}/public/domain_default.png'
+                            urlPictures:`${__urlImage}/public/domain_default.png`
                         },{transaction:t1})
                         return picture.urlPictures;
                     })
@@ -84,8 +84,8 @@ class DomaineService implements DomainInterfaceService{
                         });
                         return picture?.urlPictures;
                     });
-                }
-                resolve({...domainFind?.dataValues , image: domainFind?.image} as Domain|null);
+                    resolve({...domainFind?.dataValues , image: domainFind?.image} as Domain);
+                }else resolve(domainFind);
             } catch (error) {
                 reject(error);
             }
@@ -130,8 +130,8 @@ class DomaineService implements DomainInterfaceService{
                         });
                         return picture?.urlPictures;
                     });
-                }
-                resolve({...domainFind?.dataValues , image: domainFind?.image} as Domain|null);
+                    resolve({...domainFind?.dataValues , image: domainFind?.image} as Domain);
+                }else resolve(domainFind);
             } catch (error) {
                 reject(error);
             }
@@ -145,7 +145,9 @@ class DomaineService implements DomainInterfaceService{
                     return await Domain.findAndCountAll({
                         where:{
                             domainName:{
-                                [Op.like] : `%${search}%`
+                                [Op.like] : {
+                                    [Op.any]:search?search.split('').map(chaine=>`%${chaine}%`):['']
+                                }
                             }
                         },
                         limit,
@@ -196,16 +198,18 @@ class DomaineService implements DomainInterfaceService{
         })
     }
 
-    followDomain(instance:DomainInterface,userId:number){
+    followDomain(instance:DomainInterface,userIp?:string,userId?:number){
         return new Promise<[FollowDomainInterface,boolean]>(async (resolve, reject) => {
             try {
                 const followData = await sequelizedb2.transaction(async t=>{
                     return await FollowDomain.findOrCreate({
                         where:{
-                            userId,
-                            domainId:instance.id
+                            domainId:instance.id,
+                            userIp:userIp?userIp:null,
+                            userId:userId?userId:null
                         },
                         defaults:{
+                            userIp,
                             userId,
                             domainId:instance.id
                         }
@@ -218,11 +222,11 @@ class DomaineService implements DomainInterfaceService{
         })
     }
 
-    deleteDomain(instance: DomainInterface){
+    deleteDomain(instance: Domain){
         return new Promise<void>(async(resolve, reject) => {
             try {
                 await sequelizedb2.transaction(async t=>{
-                    await(instance.destroy({force:true}));
+                    await Domain.destroy({where:{id:instance.id},force:true});
                 })
                 resolve();
             } catch (error) {

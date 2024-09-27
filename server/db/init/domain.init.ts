@@ -21,7 +21,7 @@ Domain.init({
                 args: [4 , 30]
             },
             is:{
-                args:/^[a-zA-Z0-9 ]?$/,
+                args:/^[a-zA-Z0-9 ]+$/,
                 msg:`Veillez fournir un nom d'utilisateur sans carractères spéciaux !`
             },
             validatePicturesName(value:string){

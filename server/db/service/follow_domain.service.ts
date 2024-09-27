@@ -2,16 +2,23 @@ import { sequelizedb2,sequelizedb1 } from '../config';
 import { DomainInterface } from '../interface';
 import { Domain, FollowDomain , Image} from '../../db';
 import { FollowDomainServiceInterface } from './interface';
+import { Op } from 'sequelize';
 
 class FollowDomainService implements FollowDomainServiceInterface{
     
-    findDomainFollow(userId:number,limit?:number,search=''){
+    findDomainFollow(userIp?:string,userId?:number,limit?:number,search=''){
         return new Promise<{ count:number; rows:DomainInterface[];}>(async(resolve, reject) => {
             try {
                 const tableDomain = await sequelizedb2.transaction(async t=>{
                     const tableFollow = await FollowDomain.findAndCountAll({
                         where:{
-                            userId
+                            '$domain.domainName$':{
+                                [Op.like]:{
+                                    [Op.any]:search?search.split('').map(chaine=>`%${chaine}%`):['']
+                                }
+                            },
+                            userId:userId?userId:null,
+                            userIp:userIp?userIp:null
                         },
                         include:[
                             {
@@ -28,8 +35,8 @@ class FollowDomainService implements FollowDomainServiceInterface{
                                             )`:  `(
                                                 SELECT COUNT(*) from "followDomain"
                                                 WHERE
-                                                    "domainId" = "Domain"."id"
-                                            )`),`nbreSubscribe`
+                                                    "domainId" = "domain"."id"
+                                            )`),`nbreSubscribes`
                                         ]
                                     ]
                                 }
@@ -66,14 +73,15 @@ class FollowDomainService implements FollowDomainServiceInterface{
         })
     }
     
-    deSubscribeDomain(userId: number, domainId: number){
+    deSubscribeDomain(domainId: number, userIp?:string ,userId?:number){
         return new Promise<void>(async (resolve, reject) => {
             try {
                 await sequelizedb2.transaction(async t=>{
                     await FollowDomain.destroy({
                         where:{
-                            userId,
-                            domainId
+                            domainId:domainId,
+                            userIp:userIp?userIp:null,
+                            userId:userId?userId:null
                         },
                         force:true
                     });

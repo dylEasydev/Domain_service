@@ -9,6 +9,7 @@ class ExpressApp{
 
     constructor(){
         this.expressServer = bridge(express);
+        this.expressServer.enable('trust proxy');
         this.configServer();
     }
 
