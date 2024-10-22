@@ -9,29 +9,6 @@ export class DomainController extends BaseController{
 
     async createDomain(req:Request, res:Response){
         try{
-            const userToken = req.body.token as Token
-            if(typeof userToken.scope ==='string'){
-                if(userToken.scope !== 'created:domain')
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de création de domaine !`
-                    );
-            }else if(typeof userToken.scope === 'undefined'){
-                return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_PERMISSION_STATUS,
-                    res,
-                    `Aucune Permission de création de domaine !`
-                );
-            }else{
-                if(!userToken.scope.includes('created:domain'))
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de création de domaine !`
-                    );
-            }
-
             const {domainName , domainDescript} = req.body;
             const newDomain = await domainService.createDomain({domainName, domainDescript});
             return statusResponse.sendResponseJson(
@@ -63,28 +40,6 @@ export class DomainController extends BaseController{
     async updateDomain(req:Request ,res:Response){
         if(req.params.id){
             try {
-                const userToken = req.body.token as Token
-                if(typeof userToken.scope ==='string'){
-                    if(userToken.scope !== 'updated:domain')
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de mis à jour d'un domaine !`
-                        );
-                }else if(typeof userToken.scope === 'undefined'){
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de mis à jour d'un domaine !`
-                    );
-                }else{
-                    if(!userToken.scope.includes('updated:domain'))
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de mis à jour d'un domaine !`
-                        );
-                }
                 const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
                 const lastDomain= await domainService.findDomainById(id);
                 if(lastDomain === null) {
@@ -259,28 +214,6 @@ export class DomainController extends BaseController{
     async deleteDomain(req:Request , res:Response){
         if(req.params.id){
             try {
-                const userToken = req.body.token as Token
-                if(typeof userToken.scope ==='string'){
-                    if(userToken.scope !== 'deleted:domain')
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de supression d'un domain !`
-                        );
-                }else if(typeof userToken.scope === 'undefined'){
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de supression d'un domaine !`
-                    );
-                }else{
-                    if(!userToken.scope.includes('deleted:domain'))
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de supression d'un domaine !`
-                        );
-                }
                 const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
                 const domainFind = await domainService.findDomainById(id);
                 if(domainFind === null) {

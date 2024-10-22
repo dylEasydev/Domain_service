@@ -8,11 +8,11 @@ class DomainRouter extends BaseRouter <DomainController>{
         this.routerServeur.get('/:id',this.controllerService.findDomainById);
         this.routerServeur.get('/name/:domainName',this.controllerService.findDomainByName);
 
-        this.routerServeur.put('/:id',auth.secureMiddleware,this.controllerService.updateDomain);
-        this.routerServeur.post('/',auth.secureMiddleware,this.controllerService.createDomain);
+        this.routerServeur.put('/:id',auth.secureMiddleware,auth.verifPermToken('updated:domain'),this.controllerService.updateDomain);
+        this.routerServeur.post('/',auth.secureMiddleware,auth.verifPermToken('created:domain'),this.controllerService.createDomain);
         this.routerServeur.post('/follow/:id',auth.verifTokenExist,this.controllerService.followDomain);
         
-        this.routerServeur.delete('/:id',auth.secureMiddleware,this.controllerService.deleteDomain);
+        this.routerServeur.delete('/:id',auth.secureMiddleware,auth.verifPermToken('deleted:domain'),this.controllerService.deleteDomain);
     }
 }
 
